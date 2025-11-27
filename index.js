@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+app.use(express.json());
 
 let persons = [
   {
@@ -24,16 +25,21 @@ let persons = [
   },
 ];
 
-app.get("/info", (request, response) => {
-  response.send(
-    `<p>Phonebook has info for ${persons.length} people</p><p>${new Date()}</p>`
-  );
-});
+const generateId = () => {
+  const id = Math.floor(Math.random() * 1_000_000_000);
+  return id;
+};
 
 app.delete("/api/persons/:id", (request, response) => {
   const id = Number(request.params.id);
   persons = persons.filter((p) => p.id !== id);
   response.status(204).end();
+});
+
+app.get("/info", (request, response) => {
+  response.send(
+    `<p>Phonebook has info for ${persons.length} people</p><p>${new Date()}</p>`
+  );
 });
 
 app.get("/api/persons/:id", (request, response) => {
@@ -45,6 +51,25 @@ app.get("/api/persons/:id", (request, response) => {
     response.statusMessage = `Person with id = ${id} not found`;
     response.status(404).end();
   }
+});
+
+app.post("/api/persons", (request, response) => {
+  const body = request.body;
+
+  if (!body.name || !body.number) {
+    return response.status(400).json({
+      error: "name or number missing",
+    });
+  }
+
+  const person = {
+    name: body.name,
+    number: body.number,
+    id: generateId(),
+  };
+
+  persons = persons.concat(person);
+  response.json(person);
 });
 
 const PORT = 3001;
