@@ -1,0 +1,22 @@
+
+
+
+GET https://fullstackopen-part3-x1w8.onrender.com/info
+
+### 
+GET https://fullstackopen-part3-x1w8.onrender.com/api/persons
+
+### 
+GET https://fullstackopen-part3-x1w8.onrender.com/api/persons/1
+
+###
+POST https://fullstackopen-part3-x1w8.onrender.com/api/persons
+Content-Type: application/json
+
+{
+  "name": "James Miller",
+  "number": "09-12-0123456"
+}
+
+### 
+DELETE https://fullstackopen-part3-x1w8.onrender.com/api/persons/1
