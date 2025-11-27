@@ -48,17 +48,30 @@ app.get("/api/persons/:id", (request, response) => {
   if (person) {
     response.json(person);
   } else {
-    response.statusMessage = `Person with id = ${id} not found`;
-    response.status(404).end();
+    response.status(404).json({ error: "Person not found" });
   }
 });
 
 app.post("/api/persons", (request, response) => {
   const body = request.body;
 
-  if (!body.name || !body.number) {
+  if (!body.name) {
     return response.status(400).json({
-      error: "name or number missing",
+      error: "name missing",
+    });
+  }
+
+  if (!body.number) {
+    return response.status(400).json({
+      error: "number missing",
+    });
+  }
+
+  const lowerCaseName = body.name.toLowerCase();
+
+  if (persons.find((p) => p.name.toLowerCase() === lowerCaseName)) {
+    return response.status(409).json({
+      error: `name must be unique`,
     });
   }
 
