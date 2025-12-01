@@ -21,9 +21,11 @@ app.use(
 app.use(express.static("dist"));
 
 app.delete("/api/persons/:id", (request, response, next) => {
-  Person.findByIdAndDelete(request.params.id).then(() => {
-    response.status(204).end();
-  });
+  Person.findByIdAndDelete(request.params.id)
+    .then((result) => {
+      response.status(204).end();
+    })
+    .catch((error) => next(error));
 });
 
 app.get("/info", (request, response, next) => {
