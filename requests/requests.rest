@@ -1,11 +1,13 @@
+DELETE http://localhost:3001/api/persons/1
 
+### 
 GET http://localhost:3001/info
 
 ### 
 GET http://localhost:3001/api/persons/
 
 ### 
-GET http://localhost:3001/api/persons/1
+GET http://localhost:3001/api/persons/692dc299a76b6886f7650c67
 
 ###
 POST http://localhost:3001/api/persons
@@ -16,5 +18,11 @@ Content-Type: application/json
   "number": "09-12-0123456"
 }
 
-### 
-DELETE http://localhost:3001/api/persons/1
+###
+PUT http://localhost:3001/api/persons/692dc299a76b6886f7650c67
+Content-Type: application/json
+
+{
+  "name": "James Miller",
+  "number": "0123456"
+}
