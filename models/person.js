@@ -15,13 +15,26 @@ mongoose
     console.log("error connecting to MongoDB:", error.message);
   });
 
+const phoneNumberCustomValidator = {
+  validator: function (number) {
+    return /^(\d{2}|\d{3})-\d+$/.test(number);
+  },
+  message: (props) =>
+    `${props.value} is not a valid phone number. It must be 8 or more characters in length and follow the format 'XX-XXXXXXXX' or 'XXX-XXXXXXX' where X are digits.`,
+};
+
 const personSchema = new mongoose.Schema({
   name: {
     type: String,
     minLength: 3,
     required: true,
   },
-  number: String,
+  number: {
+    type: String,
+    minLength: 8,
+    required: true,
+    validate: phoneNumberCustomValidator,
+  },
 });
 
 personSchema.set("toJSON", {
